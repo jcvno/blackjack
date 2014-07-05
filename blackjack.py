@@ -86,27 +86,27 @@ def showCards(dealer,player,turn="player"):
 	print
 	print "*" * 20
 
-# Compares dealer and player hands
+# Evaluates and compares dealer and player hands
 # Calculates bet and returns remaining chips
 def blackjack(dealer, player, chips, bet):
 	# Player bust
 	if rank(player) > 21:
 		print "\nYou lose!"
 
+	# Push
+	elif rank(dealer) == rank(player):
+		chips += bet
+		print "\nPush"
+
 	# Player gets Blackjack
 	elif rank(player) == 21 and len(player) == 2:
-		chips += 1.5*bet
+		chips += 2.5*bet
 		print "\nYou got Blackjack!"
 
 	# Dealer bust or player beats dealer
 	elif rank(dealer) > 21 or rank(player) > rank(dealer):
 		chips += 2*bet
 		print "\nYou win!"
-
-	# Draw
-	elif rank(dealer) == rank(player):
-		chips += bet
-		print "\nDraw!"
 
 	else:
 		print "\nYou lose!"
@@ -135,6 +135,13 @@ def main():
 		playerCards = deal(deck, playerCards)
 
 		blackjack.turn = "player"
+
+		# Check for dealer Blackjack
+		if rank(dealerCards) == 21:
+				print "\nDealer got blackjack!"
+				showCards(dealerCards,playerCards,"dealer")
+				blackjack.turn = None
+
 		while blackjack.turn is "player":
 			showCards(dealerCards,playerCards)
 			dealerRank, playerRank = rank(dealerCards), rank(playerCards)
@@ -143,15 +150,9 @@ def main():
 				print "\nBust!"
 				blackjack.turn = None
 				break
-			elif playerRank == 21 and dealerRank != 21:
+			elif playerRank == 21 and len(playerCards) == 2: # Blackjack
 				blackjack.turn = None
 				break
-
-			if dealerRank == 21 and playerRank != 21:
-				print "\nDealer got blackjack!"
-				showCards(dealerCards,playerCards,"dealer")
-				blackjack.turn = None
-				break;
 
 			try:
 				choice = int(raw_input("\n1 - hit | 2 - stand\n% "))
@@ -183,9 +184,10 @@ def main():
 				blackjack.turn = None
 			
 			print "\n"
-			time.sleep(.5)
+			time.sleep(1)
 
 		chips = blackjack(dealerCards, playerCards, chips, bet)
+		print
 
 	print "No more chips available"
 	print "Thanks for playing!"
