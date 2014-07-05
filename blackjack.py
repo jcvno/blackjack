@@ -11,7 +11,7 @@
 import random
 import time
 
-# This builds a deck of 52 * numDecks cards
+# Builds, shuffles, and returns a deck of 52 * numDecks cards
 def initDeck(numDecks):
 	deck = [r+s for r in '23456789TJQKA'*numDecks for s in 'SHDC']
 	random.shuffle(deck)
@@ -40,13 +40,26 @@ def getBet(chips):
 			print "Invalid input! Must be integer or float value greater than 0 and less than the number of available chips"
 	return bet
 
+# Prompts user to choose Blackjack option:
+# 1 - Hit
+# 2 - Stand
+choices = ['',"HIT","STAND"]
+def getChoice():
+	choice = 0
+	while choice <= 0 or choice > 2:
+		try:
+			choice = int(raw_input("1 - hit | 2 - stand\n% "))
+			assert choice >= 1 and choice <= 2
+		except (ValueError, AssertionError):
+			print "Invalid choice! Must be 1 or 2"
+	return choices[choice]
+
 # Pops the first card in deck and appends to hand
 # Return new hand
-def deal(deck, hand):
+def deal(deck):
 	card = deck[0]
 	del deck[0]
-	hand.append(card)
-	return hand
+	return card
 
 # Return the sum of the ranks in a hand
 # Face cards are of rank 10
@@ -91,25 +104,25 @@ def showCards(dealer,player,turn="player"):
 def blackjack(dealer, player, chips, bet):
 	# Player bust
 	if rank(player) > 21:
-		print "\nYou lose!"
+		print "Bust!"
 
 	# Push
 	elif rank(dealer) == rank(player):
 		chips += bet
-		print "\nPush"
+		print "Push"
 
 	# Player gets Blackjack
 	elif rank(player) == 21 and len(player) == 2:
 		chips += 2.5*bet
-		print "\nYou got Blackjack!"
+		print "You got Blackjack!"
 
 	# Dealer bust or player beats dealer
 	elif rank(dealer) > 21 or rank(player) > rank(dealer):
 		chips += 2*bet
-		print "\nYou win!"
+		print "You win!"
 
 	else:
-		print "\nYou lose!"
+		print "You lose!"
 
 	return chips
 	
@@ -128,11 +141,11 @@ def main():
 		dealerCards, playerCards = [], []
 		dealerRank, playerRank = 0, 0
 
-		# Deal cards by appending cards to list
-		dealerCards = deal(deck, dealerCards)
-		dealerCards = deal(deck, dealerCards)
-		playerCards = deal(deck, playerCards)
-		playerCards = deal(deck, playerCards)
+		# Deal cards by appending card from deck to list
+		dealerCards.append(deal(deck))
+		dealerCards.append(deal(deck))
+		playerCards.append(deal(deck))
+		playerCards.append(deal(deck))
 
 		blackjack.turn = "player"
 
@@ -142,55 +155,62 @@ def main():
 				showCards(dealerCards,playerCards,"dealer")
 				blackjack.turn = None
 
-		while blackjack.turn is "player":
+		# Check player for Blackjack
+		elif rank(playerCards) == 21:
+				showCards(dealerCards,playerCards)
+				blackjack.turn = None
+
+		# Else show cards
+		else:
 			showCards(dealerCards,playerCards)
-			dealerRank, playerRank = rank(dealerCards), rank(playerCards)
 
+		# Player's turn
+		while blackjack.turn is "player":
+			choice = getChoice()
+
+			if choice == "HIT": 
+				playerCards.append(deal(deck))
+			elif choice == "STAND":
+				blackjack.turn = "dealer"
+				break
+
+			showCards(dealerCards,playerCards)
+			playerRank = rank(playerCards)
+
+			# Bust
 			if playerRank > 21:
-				print "\nBust!"
 				blackjack.turn = None
-				break
-			elif playerRank == 21 and len(playerCards) == 2: # Blackjack
-				blackjack.turn = None
-				break
+			# Twenty-One
+			elif playerRank == 21:
+				print "\nYou got 21!"
+				time.sleep(1)
+				blackjack.turn = "dealer"
 
-			try:
-				choice = int(raw_input("\n1 - hit | 2 - stand\n% "))
-				assert choice >= 1 and choice <= 2
+		print
 
-				if choice == 1:
-					playerCards = deal(deck, playerCards)
-
-				elif choice == 2:
-					blackjack.turn = "dealer"
-					
-			except (ValueError, AssertionError):
-				print "Invalid choice! Must be [1-2]"
-
-
-			print "\n"
-
+		# Dealer's turn
 		while blackjack.turn is "dealer":
 			showCards(dealerCards,playerCards,blackjack.turn)
-			dealerRank, playerRank = rank(dealerCards), rank(playerCards)
+			dealerRank = rank(dealerCards)
 
 			if dealerRank > 21:
 				print "\nDealer busts!"
 				blackjack.turn = None
 			elif dealerRank < 17:
 				print "\nDealer hits"
-				dealerCards = deal(deck, dealerCards)
+				dealerCards.append(deal(deck))
 			else:
 				blackjack.turn = None
 			
-			print "\n"
+			# Pause between dealer moves so player can see dealer's actions
 			time.sleep(1)
 
+		# Compare hands and update available chips
 		chips = blackjack(dealerCards, playerCards, chips, bet)
 		print
 
 	print "No more chips available"
-	print "Thanks for playing!"
+	print "Thanks for playing!\n"
 
 
 
