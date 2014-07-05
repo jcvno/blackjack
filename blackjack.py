@@ -9,7 +9,7 @@
 #
 #
 import random
-
+import time
 
 # This builds a deck of 52 * numDecks cards
 def initDeck(numDecks):
@@ -17,11 +17,13 @@ def initDeck(numDecks):
 	random.shuffle(deck)
 	return deck
 
-# Pops and returns the first card in deck
-def deal(deck):
+# Pops the first card in deck and appends to hand
+# Return new hand
+def deal(deck, hand):
 	card = deck[0]
 	del deck[0]
-	return card
+	hand.append(card)
+	return hand
 
 # Return the sum of the ranks in a hand
 # Face cards are of rank 10
@@ -46,7 +48,7 @@ def rank(hand):
 # If player's turn, then hide dealer's first card
 def showCards(dealer,player,turn="player"):
 	print "Dealer Cards:", rank(dealer) if turn is "dealer" else ""
-	for card in dealer[::-1]:
+	for card in dealer:
 		if card is dealer[0] and turn is "player":
 			card = "--"
 		print card,
@@ -55,38 +57,70 @@ def showCards(dealer,player,turn="player"):
 	for card in player:
 		print card,
 
-	# Check blackjack
-	if turn is "player" and rank(dealer) == 21:
-		return "lose"
-	return None
+	return rank(dealer), rank(player)
 
-def blackjack():
-	return
+def blackjack(dealer, player):
+	if rank(player) > 21:
+		print "\nYou lose!"
+	elif rank(dealer) > 21 or rank(player) > rank(dealer):
+		print "\nYou win!"
+	elif rank(dealer) == rank(player):
+		print "\nDraw!"
+	else:
+		print "\nYou lose!"
 	
 def main():
 	deck = initDeck(1)
-	dealer, player = [], []
+	dealerCards, playerCards = [], []
+	dealerRank, playerRank = 0, 0
 
 	# Deal cards by appending cards to list
-	dealer.append(deal(deck))
-	dealer.append(deal(deck))
-	player.append(deal(deck))
-	player.append(deal(deck))
+	dealerCards = deal(deck, dealerCards)
+	dealerCards = deal(deck, dealerCards)
+	playerCards = deal(deck, playerCards)
+	playerCards = deal(deck, playerCards)
 
 	blackjack.turn = "player"
-	while blackjack.turn == "player":
-		blackjack.status = showCards(dealer,player,blackjack.turn)
-		if blackjack.status == "lose":
-			print "Dealer got blackjack!"
-			showCards(dealer,player,"dealer")
+	while blackjack.turn is "player":
+		dealerRank, playerRank = showCards(dealerCards,playerCards,blackjack.turn)
+
+		if playerRank > 21:
+			print "\nBust!"
+			blackjack.turn = None
+			break
+
+		if dealerRank == 21:
+			print "\nDealer got blackjack!"
+			showCards(dealerCards,playerCards,"dealer")
 			return
 		choice = raw_input("\nhit or stand? ")
 
 		if choice == "hit":
-			player.append(deal(deck))
+			playerCards = deal(deck, playerCards)
 
 		elif choice == "stand":
 			blackjack.turn = "dealer"
+
+		print "\n"
+
+	while blackjack.turn is "dealer":
+		dealerRank, playerRank = showCards(dealerCards,playerCards,blackjack.turn)
+
+		if dealerRank > 21:
+			print "\nDealer busts!"
+			blackjack.turn = None
+		elif dealerRank < 17:
+			dealerCards = deal(deck, dealerCards)
+		else:
+			blackjack.turn = None
+		
+		print "\n"
+		time.sleep(1)
+
+	blackjack(dealerCards, playerCards)
+
+
+
 
 
 if __name__ == "__main__":
