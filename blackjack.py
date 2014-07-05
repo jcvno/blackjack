@@ -86,29 +86,31 @@ def showCards(dealer,player,turn="player"):
 	print
 	print "*" * 20
 
-def win(chips,bet):
-	return chips + 2*bet
-
-def draw(chips,bet):
-	return chips + bet
-
-def bj(chips,bet):
-	return chips + 1.5*bet
-
+# Compares dealer and player hands
+# Calculates bet and returns remaining chips
 def blackjack(dealer, player, chips, bet):
-	if rank(player) > 21: # Player bust
+	# Player bust
+	if rank(player) > 21:
 		print "\nYou lose!"
+
+	# Player gets Blackjack
 	elif rank(player) == 21 and len(player) == 2:
-		chip = bj(chips,bet)
+		chips += 1.5*bet
 		print "\nYou got Blackjack!"
-	elif rank(dealer) > 21 or rank(player) > rank(dealer): # Dealer bust or player beats dealer
-		chips = win(chips,bet)
+
+	# Dealer bust or player beats dealer
+	elif rank(dealer) > 21 or rank(player) > rank(dealer):
+		chips += 2*bet
 		print "\nYou win!"
-	elif rank(dealer) == rank(player): # Draw
-		chips = draw(chips,bet)
+
+	# Draw
+	elif rank(dealer) == rank(player):
+		chips += bet
 		print "\nDraw!"
+
 	else:
 		print "\nYou lose!"
+
 	return chips
 	
 def main():
