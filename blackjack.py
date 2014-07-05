@@ -45,7 +45,7 @@ def rank(hand):
 # Print cards on screen
 # If player's turn, then hide dealer's first card
 def showCards(dealer,player,turn="player"):
-	print "Dealer Cards:",  rank(dealer)
+	print "Dealer Cards:", rank(dealer) if turn is "dealer" else ""
 	for card in dealer[::-1]:
 		if card is dealer[0] and turn is "player":
 			card = "--"
@@ -54,6 +54,11 @@ def showCards(dealer,player,turn="player"):
 	print "Player Cards:", rank(player)
 	for card in player:
 		print card,
+
+	# Check blackjack
+	if turn is "player" and rank(dealer) == 21:
+		return "lose"
+	return None
 
 def blackjack():
 	return
@@ -70,7 +75,11 @@ def main():
 
 	blackjack.turn = "player"
 	while blackjack.turn == "player":
-		showCards(dealer,player,blackjack.turn)
+		blackjack.status = showCards(dealer,player,blackjack.turn)
+		if blackjack.status == "lose":
+			print "Dealer got blackjack!"
+			showCards(dealer,player,"dealer")
+			return
 		choice = raw_input("\nhit or stand? ")
 
 		if choice == "hit":
