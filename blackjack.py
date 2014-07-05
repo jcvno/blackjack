@@ -17,6 +17,17 @@ def initDeck(numDecks):
 	random.shuffle(deck)
 	return deck
 
+# Changes the number of decks to use
+def changeNumDecks():
+	numDecks = 0
+	while numDecks <= 0:
+		try:
+			numDecks = int(raw_input("Enter number of decks to use: "))
+			assert numDecks > 0
+		except (ValueError, AssertionError):
+			print "Invalid input! Must be integer value greater than 0"
+	return numDecks
+
 # Pops the first card in deck and appends to hand
 # Return new hand
 def deal(deck, hand):
@@ -73,8 +84,9 @@ def blackjack(dealer, player):
 	
 def main():
 	chips = 100
-	numDecks = 1
-	deck = initDeck(1)
+	numDecks = changeNumDecks()
+
+	deck = initDeck(numDecks)
 	dealerCards, playerCards = [], []
 	dealerRank, playerRank = 0, 0
 
@@ -100,7 +112,7 @@ def main():
 			return
 
 		try:
-			choice = int(raw_input("\n1 - hit | 2 - stand\n"))
+			choice = int(raw_input("\n1 - hit | 2 - stand\n% "))
 			assert choice >= 1 and choice <= 2
 
 			if choice == 1:
