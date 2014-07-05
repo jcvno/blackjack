@@ -28,6 +28,18 @@ def changeNumDecks():
 			print "Invalid input! Must be integer value greater than 0"
 	return numDecks
 
+# Prompts user for bet value
+# User input must be greater than 0 and less than chips
+def getBet(chips):
+	bet = 0
+	while bet <= 0 or bet > chips:
+		try:
+			bet = float(raw_input("Enter desired bet: "))
+			assert bet > 0 and bet <= chips
+		except (ValueError, AssertionError):
+			print "Invalid input! Must be integer or float value greater than 0 and less than the number of available chips"
+	return bet
+
 # Pops the first card in deck and appends to hand
 # Return new hand
 def deal(deck, hand):
@@ -80,13 +92,19 @@ def win(chips,bet):
 def draw(chips,bet):
 	return chips + bet
 
+def bj(chips,bet):
+	return chips + 1.5*bet
+
 def blackjack(dealer, player, chips, bet):
-	if rank(player) > 21:
+	if rank(player) > 21: # Player bust
 		print "\nYou lose!"
-	elif rank(dealer) > 21 or rank(player) > rank(dealer):
+	elif rank(player) == 21 and len(player) == 2:
+		chip = bj(chips,bet)
+		print "\nYou got Blackjack!"
+	elif rank(dealer) > 21 or rank(player) > rank(dealer): # Dealer bust or player beats dealer
 		chips = win(chips,bet)
 		print "\nYou win!"
-	elif rank(dealer) == rank(player):
+	elif rank(dealer) == rank(player): # Draw
 		chips = draw(chips,bet)
 		print "\nDraw!"
 	else:
@@ -99,7 +117,8 @@ def main():
 
 	# while there are still chips available to bet
 	while chips > 0:
-		bet = 1
+		print "chips:", chips
+		bet = getBet(chips)
 		chips = chips - bet
 		print "chips:", chips
 		print "bet:", bet
@@ -123,7 +142,6 @@ def main():
 				blackjack.turn = None
 				break
 			elif playerRank == 21 and dealerRank != 21:
-				print "\nYou got Blackjack!"
 				blackjack.turn = None
 				break
 
