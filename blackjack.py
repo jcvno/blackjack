@@ -108,8 +108,7 @@ def main():
 
 			elif choice == 2:
 				blackjack.turn = "dealer"
-			else:
-				print "Invalid choice! Must be [1-2]"
+				
 		except (ValueError, AssertionError):
 			print "Invalid choice! Must be [1-2]"
 
