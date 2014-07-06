@@ -50,7 +50,7 @@ def getChoice():
 	maxChoice = len(blackjackChoices)
 	while choice <= 0 or choice >= maxChoice:
 		try:
-			choice = int(raw_input("Input: 1 - Hit | 2 - Stand\n% "))
+			choice = int(raw_input("Options: 1 - Hit | 2 - Stand\n% "))
 			assert choice >= 1 and choice < maxChoice
 		except (ValueError, AssertionError):
 			print "Invalid choice! Must be [1-" + str(maxChoice-1) + "]"
@@ -68,7 +68,7 @@ def menu():
 	maxChoice = len(menuChoices)
 	while choice <= 0 or choice >= maxChoice:
 		try:
-			choice = int(raw_input("Input: 1 - Play | 2 - Change # of Decks | 3 - Exit\n% "))
+			choice = int(raw_input("Menu: 1 - Play | 2 - Change # of Decks | 3 - Exit\n% "))
 			assert choice >= 1 and choice < maxChoice
 		except (ValueError, AssertionError):
 			print "Invalid choice! Must be [1-" + str(maxChoice-1) + "]"
