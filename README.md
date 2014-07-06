@@ -11,7 +11,7 @@ Simply download the source and run in the Python interpreter
 # Gameplay
 Single player begins with 100 chips and plays against the dealer. Game first prompts the player how many decks to use. Cards are recycled and deck is shuffled after every round.
 
-Player will be asked to place a bet of at least 1 chip. Once bet is place, the round starts and the dealer deals out the cards and appropriately checks for Blackjack. Once the round has begun, the player will have the option to either Hit or Stand.
+Player will be asked to place a bet of at least one (1) chip. Once bet is place, the round starts and the dealer deals out the cards and appropriately checks for Blackjack. Once the round has begun, the player will have the option to either Hit or Stand.
 
 When the player stands, or gets 21, the dealer will play its turn. There is a small one (1) second delay so the player can keep track of every move.
 
@@ -39,4 +39,3 @@ Currently, only "Hit" and "Stand" actions are available. Advanced actions such a
 	- Winnings total 1 times player bet
 * Lose
 	- Winnings total 0
-	
