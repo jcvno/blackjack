@@ -1,24 +1,40 @@
 #!/usr/bin/python
-# -----------
-# Blackjack
+
+# Copyright 2014 Justin Cano
 #
-# Cards are represented as strings labeled as their rank and suit
-# Examples: "7H" - 7 Hearts
-#			"TS" - 10 Spades
+# This is a simple Python program of the game Blackjack
+# (http://en.wikipedia.org/wiki/Blackjack), developed for
+# a coding challenge from the 2014 Insight Data Engineering
+# Fellows Program application.
 #
+# Licensed under the GNU General Public License, version 2.0
+# (the "License"), this program is free software; you can
+# redistribute it and/or modify it under the terms of the 
+# License.
 #
+# You should have received a copy of the License along with this
+# program in the file "LICENSE". If not, you may obtain a copy of 
+# the License at
+#	http://www.gnu.org/licenses/gpl-2.0.html
 #
 import random
 import time
 
-# Builds, shuffles, and returns a deck of 52 * numDecks cards
-def initDeck(numDecks):
+def shuffleDeck(numDecks):
+	"""
+	Builds, shuffles, and returns a deck of 52 * numDecks cards
+	Cards are represented as strings labeled as their rank and suit
+	Examples: '7H' - 7 Hearts
+			  'TS' - 10 Spades
+	"""
 	deck = [r+s for r in '23456789TJQKA'*numDecks for s in 'SHDC']
 	random.shuffle(deck)
 	return deck
 
-# Prompts user to change the number of decks to use
 def changeNumDecks():
+	"""
+	Prompts user to change the number of decks to use
+	"""
 	numDecks = 0
 	while numDecks <= 0:
 		try:
@@ -28,9 +44,11 @@ def changeNumDecks():
 			print "Invalid input! Must be integer value greater than 0"
 	return numDecks
 
-# Prompts user for bet value
-# User input must be greater than 0 and less than chips
 def getBet(chips):
+	"""
+	Prompts user for bet value
+	User input must be greater than 0 and less than chips
+	"""
 	bet = 0
 	while bet <= 0 or bet > chips:
 		try:
@@ -42,12 +60,14 @@ def getBet(chips):
 			print "You don't have that many chips!"
 	return bet
 
-# Prompts user to choose Blackjack option:
-# 1 - Hit
-# 2 - Stand
-# Can be extended for advanced options, i.e. split, double
 blackjackChoices = ['',"HIT","STAND"]
 def getChoice():
+	"""
+	Prompts user to choose Blackjack option:
+	1 - Hit
+	2 - Stand
+	Can be extended for advanced options, i.e. split, double
+	"""
 	choice = 0
 	maxChoice = len(blackjackChoices)
 	while choice <= 0 or choice >= maxChoice:
@@ -58,14 +78,15 @@ def getChoice():
 			print "Invalid choice! Must be [1-" + str(maxChoice-1) + "]"
 	return blackjackChoices[choice]
 
-# Menu
-# Prompts the user to choose menu option:
-# 1 - Play again
-# 2 - Change # of decks
-# 3 - Exit
-# Can be extended for additional menu options
 menuChoices = ['',"PLAY","DECK","EXIT"]
 def menu():
+	"""
+	Menu
+	Prompts the user to choose menu option:
+	1 - Play again
+	2 - Change # of decks
+	3 - Exit
+	"""
 	choice = 0
 	maxChoice = len(menuChoices)
 	while choice <= 0 or choice >= maxChoice:
@@ -76,17 +97,21 @@ def menu():
 			print "Invalid choice! Must be [1-" + str(maxChoice-1) + "]"
 	return menuChoices[choice]
 
-# Pops the first card in deck and appends to hand
-# Return new hand
 def deal(deck):
+	"""
+	Pops and returns the first card in deck
+	"""
 	card = deck[0]
 	del deck[0]
 	return card
 
-# Return the sum of the ranks in a hand
-# Face cards are of rank 10
-# Aces are of rank 11 or 1
 def rank(hand):
+	"""
+	Return the sum of the ranks in a hand
+	Face cards are of rank 10
+	Aces are of rank 11 or 1
+	Example: rank(['7H','AS','JD']) => 18
+	"""
 	# Extract all ranks from hand
 	ranks = [10 if r == 'T' or r == 'J' or r =='Q' or r == 'K' else
 			11 if r == 'A' else
@@ -94,20 +119,22 @@ def rank(hand):
 
 	# While there are 11-ranked Aces in hand and hand rank is greater than 21,
 	while 11 in ranks and sum(ranks) > 21:
-		# Change rank of Aces to 1
-		# one Ace at a time
-		# until hand rank is less than 21
-		# or until there are no more 11-ranked Aces
+		"""
+		Change rank of Aces to 1
+		one Ace at a time
+		until hand rank is less than 21
+		or until there are no more 11-ranked Aces
+		"""
 		index = ranks.index(11)
 		ranks[index] = 1
 	return sum(ranks)
 
-# Print cards on screen
-# If player's turn, then hide dealer's second card
 def showCards(dealer,player,turn="player"):
+	"""
+	Print cards on screen
+	If player's turn, hide dealer's second card and rank
+	"""
 	print "*" * 20
-	# If it is player's turn, show rank of dealer's face-up card
-	# Else show the rank of dealer's hand
 	print "Dealer Cards:", rank([dealer[0]]) if turn is "player" else rank(dealer)
 	for card in dealer:
 		if card is dealer[1] and turn is "player":
@@ -121,9 +148,11 @@ def showCards(dealer,player,turn="player"):
 	print
 	print "*" * 20
 
-# Evaluates and compares dealer and player hands
-# Calculates bet and returns remaining chips
 def blackjack(dealer, player, chips, bet):
+	"""
+	Evaluates and compares dealer and player hands
+	Calculates bet and returns remaining chips
+	"""
 	# Player bust
 	if rank(player) > 21:
 		print "Bust!"
@@ -175,7 +204,7 @@ def main():
 		chips = chips - bet
 		print "Chips:", chips
 		print "Bet:", bet
-		deck = initDeck(numDecks)
+		deck = shuffleDeck(numDecks)
 		dealerCards, playerCards = [], []
 		dealerRank, playerRank = 0, 0
 
@@ -222,6 +251,7 @@ def main():
 			# Twenty-One
 			elif playerRank == 21:
 				print "\nYou got 21!"
+				# Pause so player notices 21
 				time.sleep(1)
 				blackjack.turn = "dealer"
 
