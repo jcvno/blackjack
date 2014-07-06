@@ -44,16 +44,34 @@ def getBet(chips):
 # 1 - Hit
 # 2 - Stand
 # Can be extended for advanced options, i.e. split, double
-choices = ['',"HIT","STAND"]
+blackjackChoices = ['',"HIT","STAND"]
 def getChoice():
 	choice = 0
-	while choice <= 0 or choice >= len(choices):
+	maxChoice = len(blackjackChoices)
+	while choice <= 0 or choice >= maxChoice:
 		try:
-			choice = int(raw_input("1 - hit | 2 - stand\n% "))
-			assert choice >= 1 and choice < len(choices)
+			choice = int(raw_input("1 - Hit | 2 - Stand\n% "))
+			assert choice >= 1 and choice < maxChoice
 		except (ValueError, AssertionError):
-			print "Invalid choice! Must be 1 or 2"
-	return choices[choice]
+			print "Invalid choice! Must be [1-" + str(maxChoice-1) + "]"
+	return blackjackChoices[choice]
+
+# Menu
+# Prompts the user to choose menu option:
+# 1 - Play again
+# 2 - Change # of decks
+# 3 - Exit
+menuChoices = ['',"PLAY","DECK","EXIT"]
+def menu():
+	choice = 0
+	maxChoice = len(menuChoices)
+	while choice <= 0 or choice >= maxChoice:
+		try:
+			choice = int(raw_input("1 - Play Again | 2 - Change # of Decks | 3 - Exit\n% "))
+			assert choice >= 1 and choice < maxChoice
+		except (ValueError, AssertionError):
+			print "Invalid choice! Must be [1-" + str(maxChoice-1) + "]"
+	return menuChoices[choice]
 
 # Pops the first card in deck and appends to hand
 # Return new hand
@@ -211,6 +229,20 @@ def main():
 		# Compare hands and update available chips
 		chips = blackjack(dealerCards, playerCards, chips, bet)
 		print
+
+		# Display menu
+		# if choice == "PLAY" then continue the game
+		if chips > 0:
+			choice = menu()
+			if choice == "DECK":
+				numDecks = changeNumDecks()
+				print "Changed # of decks to:", numDecks
+			elif choice == "EXIT":
+				print "\nCashing out with", chips, "chips..."
+				print "Thanks for playing!\n"
+				return
+
+
 
 	print "No more chips available"
 	print "Thanks for playing!\n"
