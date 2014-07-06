@@ -40,7 +40,8 @@ def changeNumDecks():
 	numDecks = 0
 	while numDecks <= 0:
 		try:
-			numDecks = int(raw_input("Enter number of decks to use:\n% "))
+			print "Enter number of decks to use:"
+			numDecks = int(raw_input("% "))
 			assert numDecks > 0
 		except (ValueError, AssertionError):
 			print "Invalid input! Must be integer value greater than 0"
@@ -55,7 +56,8 @@ def getBet(chips):
 	bet = 0
 	while bet <= 0 or bet > chips:
 		try:
-			bet = float(raw_input("How much do you wanna bet?\n% "))
+			print "How much do you wanna bet (0-" + str(chips) + ")?"
+			bet = float(raw_input("% "))
 			assert bet > 0 and bet <= chips
 		except ValueError:
 			print "Invalid input! Must be integer or float value greater"
@@ -226,7 +228,8 @@ def main():
 		dealerCards, playerCards = [], []
 		dealerRank, playerRank = 0, 0
 
-		# Deal cards by appending the first card from deck to list
+		# Deal starting cards by appending the
+		# first card from deck to list
 		playerCards.append(deal(deck))
 		dealerCards.append(deal(deck))
 		playerCards.append(deal(deck))
@@ -291,7 +294,7 @@ def main():
 
 		# Compare hands and update available chips
 		chips = blackjack(dealerCards, playerCards, chips, bet)
-		time.sleep(2)
+		time.sleep(1.5)
 		choice = ''
 		print
 
@@ -299,6 +302,7 @@ def main():
 	print "Thanks for playing!\n"
 
 if __name__ == "__main__":
+	print chr(27) + "[2J" # Clear screen
 	print "*" * 50
 	print """
 		BLACKJACK
