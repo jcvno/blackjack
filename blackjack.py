@@ -169,27 +169,23 @@ def Blackjack(dealer, player, chips, bet):
 	Calculates winnings and adds to chips
 	Returns chips
 	"""
-	# Player bust
 	if Rank(player) > 21:
+		"Player bust"
 		print "Bust!"
-
-	# Push
 	elif Rank(dealer) == Rank(player):
+		"Push"
 		chips += bet
 		print "Push"
-
-	# Player gets Blackjack
 	elif Rank(player) == 21 and len(player) == 2:
+		"Player gets Blackjack"
 		chips += 2.5*bet
 		print "You got Blackjack!"
-
-	# Dealer bust or player beats dealer
 	elif Rank(dealer) > 21 or Rank(player) > Rank(dealer):
+		"Dealer bust or player beats dealer"
 		chips += 2*bet
 		print "You win!"
-
-	# Dealer beats player
 	else:
+		"Dealer beats player"
 		print "You lose!"
 
 	return chips
@@ -225,7 +221,7 @@ def main():
 		chips = chips - bet
 		print "Chips:", chips
 		print "Bet:", bet
-		
+
 		deck = ShuffleDeck(numDecks)
 		dealerCards, playerCards = [], []
 		dealerRank, playerRank = 0, 0
@@ -241,8 +237,8 @@ def main():
 
 		if Rank(dealerCards) == 21:
 			"Check for dealer Blackjack"
-			print "\nDealer got blackjack!"
 			ShowCards(dealerCards, playerCards, "dealer")
+			print "\nDealer got blackjack!"
 			Blackjack.turn = None
 		elif Rank(playerCards) == 21:
 			"Check player for Blackjack"
@@ -295,17 +291,18 @@ def main():
 
 		# Compare hands and update available chips
 		chips = Blackjack(dealerCards, playerCards, chips, bet)
+		time.sleep(2)
 		choice = ''
 		print
 
 	print "No more chips available"
 	print "Thanks for playing!\n"
 
-print "*" * 50
-print """
+if __name__ == "__main__":
+	print "*" * 50
+	print """
 		BLACKJACK
 		by Justin Cano
-	"""
-print "*" * 50
-if __name__ == "__main__":
+		"""
+	print "*" * 50
 	main()
