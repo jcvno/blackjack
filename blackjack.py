@@ -23,6 +23,7 @@ import time
 def shuffleDeck(numDecks):
 	"""
 	Builds, shuffles, and returns a deck of 52 * numDecks cards
+	Deck is represented as a list of cards
 	Cards are represented as strings labeled as their rank and suit
 	Examples: '7H' - 7 Hearts
 			  'TS' - 10 Spades
@@ -34,11 +35,12 @@ def shuffleDeck(numDecks):
 def changeNumDecks():
 	"""
 	Prompts user to change the number of decks to use
+	Returns new number of decks to use
 	"""
 	numDecks = 0
 	while numDecks <= 0:
 		try:
-			numDecks = int(raw_input("Enter number of decks to use: "))
+			numDecks = int(raw_input("Enter number of decks to use:\n% "))
 			assert numDecks > 0
 		except (ValueError, AssertionError):
 			print "Invalid input! Must be integer value greater than 0"
@@ -48,11 +50,12 @@ def getBet(chips):
 	"""
 	Prompts user for bet value
 	User input must be greater than 0 and less than chips
+	Returns bet
 	"""
 	bet = 0
 	while bet <= 0 or bet > chips:
 		try:
-			bet = float(raw_input("How much do you wanna bet? "))
+			bet = float(raw_input("How much do you wanna bet?\n% "))
 			assert bet > 0 and bet <= chips
 		except ValueError:
 			print "Invalid input! Must be integer or float value greater than 0 and less than the number of available chips"
@@ -60,32 +63,15 @@ def getBet(chips):
 			print "You don't have that many chips!"
 	return bet
 
-blackjackChoices = ['',"HIT","STAND"]
-def getChoice():
-	"""
-	Prompts user to choose Blackjack option:
-	1 - Hit
-	2 - Stand
-	Can be extended for advanced options, i.e. split, double
-	"""
-	choice = 0
-	maxChoice = len(blackjackChoices)
-	while choice <= 0 or choice >= maxChoice:
-		try:
-			choice = int(raw_input("Options: 1 - Hit | 2 - Stand\n% "))
-			assert choice >= 1 and choice < maxChoice
-		except (ValueError, AssertionError):
-			print "Invalid choice! Must be [1-" + str(maxChoice-1) + "]"
-	return blackjackChoices[choice]
-
 menuChoices = ['',"PLAY","DECK","EXIT"]
 def menu():
 	"""
 	Menu
 	Prompts the user to choose menu option:
-	1 - Play again
+	1 - Play
 	2 - Change # of decks
 	3 - Exit
+	Returns user selection
 	"""
 	choice = 0
 	maxChoice = len(menuChoices)
@@ -96,6 +82,25 @@ def menu():
 		except (ValueError, AssertionError):
 			print "Invalid choice! Must be [1-" + str(maxChoice-1) + "]"
 	return menuChoices[choice]
+
+blackjackChoices = ['',"HIT","STAND"]
+def blackjackMenu():
+	"""
+	Prompts user to choose Blackjack option:
+	1 - Hit
+	2 - Stand
+	Can be extended for advanced options, i.e. split, double
+	Returns user selection
+	"""
+	choice = 0
+	maxChoice = len(blackjackChoices)
+	while choice <= 0 or choice >= maxChoice:
+		try:
+			choice = int(raw_input("Options: 1 - Hit | 2 - Stand\n% "))
+			assert choice >= 1 and choice < maxChoice
+		except (ValueError, AssertionError):
+			print "Invalid choice! Must be [1-" + str(maxChoice-1) + "]"
+	return blackjackChoices[choice]
 
 def deal(deck):
 	"""
@@ -151,7 +156,8 @@ def showCards(dealer,player,turn="player"):
 def blackjack(dealer, player, chips, bet):
 	"""
 	Evaluates and compares dealer and player hands
-	Calculates bet and returns remaining chips
+	Calculates winnings and adds to chips
+	Returns chips
 	"""
 	# Player bust
 	if rank(player) > 21:
@@ -234,7 +240,7 @@ def main():
 
 		# Player's turn
 		while blackjack.turn is "player":
-			choice = getChoice()
+			choice = blackjackMenu()
 
 			if choice == "HIT": 
 				playerCards.append(deal(deck))
@@ -276,6 +282,7 @@ def main():
 
 		# Compare hands and update available chips
 		chips = blackjack(dealerCards, playerCards, chips, bet)
+		choice = ''
 		print
 			
 
