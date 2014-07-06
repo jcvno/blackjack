@@ -50,7 +50,7 @@ def getChoice():
 	maxChoice = len(blackjackChoices)
 	while choice <= 0 or choice >= maxChoice:
 		try:
-			choice = int(raw_input("1 - Hit | 2 - Stand\n% "))
+			choice = int(raw_input("Input: 1 - Hit | 2 - Stand\n% "))
 			assert choice >= 1 and choice < maxChoice
 		except (ValueError, AssertionError):
 			print "Invalid choice! Must be [1-" + str(maxChoice-1) + "]"
@@ -61,13 +61,14 @@ def getChoice():
 # 1 - Play again
 # 2 - Change # of decks
 # 3 - Exit
+# Can be extended for additional menu options
 menuChoices = ['',"PLAY","DECK","EXIT"]
 def menu():
 	choice = 0
 	maxChoice = len(menuChoices)
 	while choice <= 0 or choice >= maxChoice:
 		try:
-			choice = int(raw_input("1 - Play Again | 2 - Change # of Decks | 3 - Exit\n% "))
+			choice = int(raw_input("Input: 1 - Play | 2 - Change # of Decks | 3 - Exit\n% "))
 			assert choice >= 1 and choice < maxChoice
 		except (ValueError, AssertionError):
 			print "Invalid choice! Must be [1-" + str(maxChoice-1) + "]"
@@ -149,14 +150,29 @@ def blackjack(dealer, player, chips, bet):
 def main():
 	chips = 100
 	numDecks = changeNumDecks()
+	choice = ''
 
 	# while there are still chips available to bet
 	while chips > 0:
-		print "chips:", chips
+		print "Chips:", chips
+
+		# Display menu
+		while choice != "PLAY":
+			choice = menu()
+			if choice == "DECK":
+				numDecks = changeNumDecks()
+				print "Changed # of decks to:", numDecks
+			elif choice == "EXIT":
+				print "\nCashing out with", chips, "chips..."
+				print "Thanks for playing!\n"
+				return
+
+		print
 		bet = getBet(chips)
+		print
 		chips = chips - bet
-		print "chips:", chips
-		print "bet:", bet
+		print "Chips:", chips
+		print "Bet:", bet
 		deck = initDeck(numDecks)
 		dealerCards, playerCards = [], []
 		dealerRank, playerRank = 0, 0
@@ -229,20 +245,7 @@ def main():
 		# Compare hands and update available chips
 		chips = blackjack(dealerCards, playerCards, chips, bet)
 		print
-
-		# Display menu
-		# if choice == "PLAY" then continue the game
-		if chips > 0:
-			choice = menu()
-			if choice == "DECK":
-				numDecks = changeNumDecks()
-				print "Changed # of decks to:", numDecks
-			elif choice == "EXIT":
-				print "\nCashing out with", chips, "chips..."
-				print "Thanks for playing!\n"
-				return
-
-
+			
 
 	print "No more chips available"
 	print "Thanks for playing!\n"
