@@ -43,13 +43,14 @@ def getBet(chips):
 # Prompts user to choose Blackjack option:
 # 1 - Hit
 # 2 - Stand
+# Can be extended for advanced options, i.e. split, double
 choices = ['',"HIT","STAND"]
 def getChoice():
 	choice = 0
-	while choice <= 0 or choice > 2:
+	while choice <= 0 or choice >= len(choices):
 		try:
 			choice = int(raw_input("1 - hit | 2 - stand\n% "))
-			assert choice >= 1 and choice <= 2
+			assert choice >= 1 and choice < len(choices)
 		except (ValueError, AssertionError):
 			print "Invalid choice! Must be 1 or 2"
 	return choices[choice]
@@ -81,7 +82,7 @@ def rank(hand):
 	return sum(ranks)
 
 # Print cards on screen
-# If player's turn, then hide dealer's first card
+# If player's turn, then hide dealer's second card
 def showCards(dealer,player,turn="player"):
 	print "*" * 20
 	# If it is player's turn, show rank of dealer's face-up card
@@ -121,6 +122,7 @@ def blackjack(dealer, player, chips, bet):
 		chips += 2*bet
 		print "You win!"
 
+	# Dealer beats player
 	else:
 		print "You lose!"
 
@@ -141,24 +143,25 @@ def main():
 		dealerCards, playerCards = [], []
 		dealerRank, playerRank = 0, 0
 
-		# Deal cards by appending card from deck to list
-		dealerCards.append(deal(deck))
+		# Deal cards by appending the first card from deck to list
+		playerCards.append(deal(deck))
 		dealerCards.append(deal(deck))
 		playerCards.append(deal(deck))
-		playerCards.append(deal(deck))
+		dealerCards.append(deal(deck))
 
+		# Player goes first
 		blackjack.turn = "player"
 
 		# Check for dealer Blackjack
 		if rank(dealerCards) == 21:
-				print "\nDealer got blackjack!"
-				showCards(dealerCards,playerCards,"dealer")
-				blackjack.turn = None
+			print "\nDealer got blackjack!"
+			showCards(dealerCards,playerCards,"dealer")
+			blackjack.turn = None
 
 		# Check player for Blackjack
 		elif rank(playerCards) == 21:
-				showCards(dealerCards,playerCards)
-				blackjack.turn = None
+			showCards(dealerCards,playerCards)
+			blackjack.turn = None
 
 		# Else show cards
 		else:
