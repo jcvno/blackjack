@@ -34,10 +34,12 @@ def getBet(chips):
 	bet = 0
 	while bet <= 0 or bet > chips:
 		try:
-			bet = float(raw_input("Enter desired bet: "))
+			bet = float(raw_input("How much do you wanna bet? "))
 			assert bet > 0 and bet <= chips
-		except (ValueError, AssertionError):
+		except ValueError:
 			print "Invalid input! Must be integer or float value greater than 0 and less than the number of available chips"
+		except AssertionError:
+			print "You don't have that many chips!"
 	return bet
 
 # Prompts user to choose Blackjack option:
