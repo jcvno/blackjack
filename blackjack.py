@@ -77,7 +77,7 @@ def menu():
 	maxChoice = len(menuChoices)
 	while choice <= 0 or choice >= maxChoice:
 		try:
-			choice = int(raw_input("Menu: 1 - Play | 2 - Change # of Decks | 3 - Exit\n% "))
+			choice = int(raw_input("Menu: [1] Play | [2] Change # of Decks | [3] Exit\n% "))
 			assert choice >= 1 and choice < maxChoice
 		except (ValueError, AssertionError):
 			print "Invalid choice! Must be [1-" + str(maxChoice-1) + "]"
@@ -96,7 +96,7 @@ def blackjackMenu():
 	maxChoice = len(blackjackChoices)
 	while choice <= 0 or choice >= maxChoice:
 		try:
-			choice = int(raw_input("Options: 1 - Hit | 2 - Stand\n% "))
+			choice = int(raw_input("Options: [1] Hit | [2] Stand\n% "))
 			assert choice >= 1 and choice < maxChoice
 		except (ValueError, AssertionError):
 			print "Invalid choice! Must be [1-" + str(maxChoice-1) + "]"
@@ -139,7 +139,7 @@ def showCards(dealer,player,turn="player"):
 	Print cards on screen
 	If player's turn, hide dealer's second card and rank
 	"""
-	print "*" * 20
+	print "=" * 20
 	print "Dealer Cards:", rank([dealer[0]]) if turn is "player" else rank(dealer)
 	for card in dealer:
 		if card is dealer[1] and turn is "player":
@@ -151,7 +151,7 @@ def showCards(dealer,player,turn="player"):
 		print card,
 
 	print
-	print "*" * 20
+	print "=" * 20
 
 def blackjack(dealer, player, chips, bet):
 	"""
@@ -189,12 +189,16 @@ def main():
 	numDecks = changeNumDecks()
 	choice = ''
 
-	# while there are still chips available to bet
 	while chips > 0:
+		"""
+		While there are still chips available to bet,
+		give the player the option to keep playing
+		"""
+		print "*" * 50
 		print "Chips:", chips
 
-		# Display menu
 		while choice != "PLAY":
+			"Display menu"
 			choice = menu()
 			if choice == "DECK":
 				numDecks = changeNumDecks()
@@ -204,7 +208,8 @@ def main():
 				print "Thanks for playing!\n"
 				return
 
-		print
+		print "*" * 50
+		print "Chips:", chips
 		bet = getBet(chips)
 		print
 		chips = chips - bet
@@ -223,23 +228,20 @@ def main():
 		# Player goes first
 		blackjack.turn = "player"
 
-		# Check for dealer Blackjack
 		if rank(dealerCards) == 21:
+			"Check for dealer Blackjack"
 			print "\nDealer got blackjack!"
 			showCards(dealerCards,playerCards,"dealer")
 			blackjack.turn = None
-
-		# Check player for Blackjack
 		elif rank(playerCards) == 21:
+			"Check player for Blackjack"
 			showCards(dealerCards,playerCards)
 			blackjack.turn = None
-
-		# Else show cards
 		else:
 			showCards(dealerCards,playerCards)
 
-		# Player's turn
 		while blackjack.turn is "player":
+			"Player's turn"
 			choice = blackjackMenu()
 
 			if choice == "HIT": 
@@ -251,11 +253,11 @@ def main():
 			showCards(dealerCards,playerCards)
 			playerRank = rank(playerCards)
 
-			# Bust
 			if playerRank > 21:
+				"Bust"
 				blackjack.turn = None
-			# Twenty-One
 			elif playerRank == 21:
+				"Twenty-One"
 				print "\nYou got 21!"
 				# Pause so player notices 21
 				time.sleep(1)
@@ -263,8 +265,8 @@ def main():
 
 		print
 
-		# Dealer's turn
 		while blackjack.turn is "dealer":
+			"Dealer's turn"
 			showCards(dealerCards,playerCards,blackjack.turn)
 			dealerRank = rank(dealerCards)
 
@@ -289,11 +291,11 @@ def main():
 	print "No more chips available"
 	print "Thanks for playing!\n"
 
-
-
-
-
-
+print "*" * 50
+print """
+		BLACKJACK
+		by Justin Cano
+	"""
+print "*" * 50
 if __name__ == "__main__":
 	main()
-
