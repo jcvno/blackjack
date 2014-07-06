@@ -75,8 +75,8 @@ def menu():
 	Returns user selection
 	"""
 	choice = 0
-	maxChoice = len(menuChoices)
-	while choice <= 0 or choice >= maxChoice:
+	maxChoice = len(menuChoices)-1
+	while choice <= 0 or choice > maxChoice:
 		try:
 			print "Menu"
 			print "-" * 10
@@ -84,9 +84,9 @@ def menu():
 			print "[2] Change # Decks"
 			print "[3] Exit"
 			choice = int(raw_input("% "))
-			assert choice >= 1 and choice < maxChoice
+			assert choice >= 1 and choice <= maxChoice
 		except (ValueError, AssertionError):
-			print "Invalid choice! Must be [1-" + str(maxChoice-1) + "]"
+			print "Invalid choice! Must be [1-" + str(maxChoice) + "]"
 	return menuChoices[choice]
 
 blackjackChoices = ['', "HIT", "STAND"]
@@ -99,17 +99,17 @@ def blackjackMenu():
 	Returns user selection
 	"""
 	choice = 0
-	maxChoice = len(blackjackChoices)
-	while choice <= 0 or choice >= maxChoice:
+	maxChoice = len(blackjackChoices)-1
+	while choice <= 0 or choice > maxChoice:
 		try:
 			print "Actions:"
 			print "-" * 10
 			print "[1] Hit"
 			print "[2] Stand"
 			choice = int(raw_input("% "))
-			assert choice >= 1 and choice < maxChoice
+			assert choice >= 1 and choice <= maxChoice
 		except (ValueError, AssertionError):
-			print "Invalid choice! Must be [1-" + str(maxChoice-1) + "]"
+			print "Invalid choice! Must be [1-" + str(maxChoice) + "]"
 	return blackjackChoices[choice]
 
 def deal(deck):
