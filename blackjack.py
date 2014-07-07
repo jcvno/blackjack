@@ -47,7 +47,7 @@ def changeNumDecks():
 			print "Invalid input! Must be integer value greater than 0"
 	return numDecks
 
-def getBet(chips):
+def placeBet(chips):
 	"""
 	Prompts user for bet value
 	User input must be greater than 0 and less than chips
@@ -91,23 +91,29 @@ def menu():
 			print "Invalid choice! Must be [1-" + str(maxChoice) + "]"
 	return menuChoices[choice]
 
-blackjackChoices = ['', "HIT", "STAND"]
-def blackjackMenu():
+blackjackChoices = ['', "HIT", "STAND", "DOUBLE"]
+def blackjackMenu(playerCards, chips, bet):
 	"""
 	Prompts user to choose Blackjack option:
 	1 - Hit
 	2 - Stand
-	Can be extended for advanced options, i.e. split, double
+	3 - Double Down (uses chips and bet to determine 
+		if player can Double Down)
+	Can be extended for advanced options, i.e. split
 	Returns user selection
 	"""
 	choice = 0
-	maxChoice = len(blackjackChoices)-1
+	maxChoice = len(blackjackChoices)-2
 	while choice <= 0 or choice > maxChoice:
 		try:
 			print "Actions:"
 			print "-" * 10
 			print "[1] Hit"
 			print "[2] Stand"
+			if len(playerCards) == 2 and chips >= bet:
+				"Double Down allowed"
+				print "[3] Double Down"
+				maxChoice += 1
 			choice = int(raw_input("% "))
 			assert choice >= 1 and choice <= maxChoice
 		except (ValueError, AssertionError):
@@ -218,7 +224,7 @@ def main():
 
 		print "*" * 50
 		print "Chips:", chips
-		bet = getBet(chips)
+		bet = placeBet(chips)
 		print "*" * 50
 		chips = chips - bet
 		print "Chips:", chips
@@ -252,15 +258,26 @@ def main():
 
 		while blackjack.turn is "player":
 			"Player's turn"
-			choice = blackjackMenu()
+			choice = blackjackMenu(playerCards, chips, bet)
 
 			if choice == "HIT":
 				playerCards.append(deal(deck))
 			elif choice == "STAND":
 				blackjack.turn = "dealer"
 				break
+			elif choice == "DOUBLE":
+				print "Double Down! Good luck!"
+				chips = chips - bet
+				print "Chips:", chips
+				bet = 2*bet
+				print "Bet:", bet
+				playerCards.append(deal(deck))
+				showCards(dealerCards, playerCards)
+				time.sleep(2)
+				blackjack.turn = "dealer"
 
-			showCards(dealerCards, playerCards)
+			if choice != "DOUBLE":
+				showCards(dealerCards, playerCards)
 			playerRank = rank(playerCards)
 
 			if playerRank > 21:

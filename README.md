@@ -28,8 +28,10 @@ When the player stands, or gets 21, the dealer will play its turn. There is a sm
 	- Dealer deals you another card
 * Stand
 	- Pass the turn to the dealer
+* Double Down
+	- Double bet and pass turn after dealer deals another card
 	
-Currently, only "Hit" and "Stand" actions are available. Advanced actions such as "Double Down" and "Splitting" may be developed in a later version.
+Currently, only "Hit", "Stand", and "Double Down" actions are available. Advanced actions such as "Splitting" may be developed in a later version.
 
 ## Winnings
 * Blackjack
