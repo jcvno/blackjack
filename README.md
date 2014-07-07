@@ -39,8 +39,8 @@ Currently, only "Hit", "Stand", and "Double Down" actions are available. Advance
 * Win
 	- 2:1 payout
 * Push
-	- 0 payout
-* Lose
+	- 1:1 payout
+* Lose/Bust
 	- Lose bet
 
 # Unit Testing
