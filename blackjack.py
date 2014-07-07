@@ -171,7 +171,7 @@ def showCards(dealer, player, turn="player"):
 	print
 	print "=" * 20
 
-def blackjack(dealer, player, chips, bet):
+def getPayout(dealer, player, chips, bet):
 	"""
 	Evaluates and compares dealer and player hands
 	Calculates winnings and adds to chips
@@ -198,6 +198,101 @@ def blackjack(dealer, player, chips, bet):
 
 	return chips
 
+def blackjack(deck,chips):
+	print "*" * 50
+	print "Chips:", chips
+	bet = placeBet(chips)
+	print "*" * 50
+	chips = chips - bet
+	print "Chips:", chips
+	print "Bet:", bet
+
+	dealerCards, playerCards = [], []
+	dealerRank, playerRank = 0, 0
+
+	# Deal starting cards by appending the
+	# first card from deck to list
+	playerCards.append(deal(deck))
+	dealerCards.append(deal(deck))
+	playerCards.append(deal(deck))
+	dealerCards.append(deal(deck))
+
+	# Player goes first
+	blackjack.turn = "player"
+
+	if rank(dealerCards) == 21:
+		"Check for dealer Blackjack"
+		showCards(dealerCards, playerCards, "dealer")
+		print "\nDealer got blackjack!"
+		blackjack.turn = None
+	elif rank(playerCards) == 21:
+		"Check player for Blackjack"
+		showCards(dealerCards, playerCards)
+		blackjack.turn = None
+	else:
+		showCards(dealerCards, playerCards)
+
+	while blackjack.turn is "player":
+		"Player's turn"
+		choice = blackjackMenu(playerCards, chips, bet)
+
+		if choice == "HIT":
+			playerCards.append(deal(deck))
+		elif choice == "STAND":
+			blackjack.turn = "dealer"
+			break
+		elif choice == "DOUBLE":
+			print "Double Down! Good luck!"
+			chips = chips - bet
+			print "Chips:", chips
+			bet = 2*bet
+			print "Bet:", bet
+			playerCards.append(deal(deck))
+			showCards(dealerCards, playerCards)
+			time.sleep(2)
+			blackjack.turn = "dealer"
+
+		if choice != "DOUBLE":
+			showCards(dealerCards, playerCards)
+		playerRank = rank(playerCards)
+
+		if playerRank > 21:
+			"Bust"
+			blackjack.turn = None
+		elif playerRank == 21:
+			"Twenty-One"
+			print "\nYou got 21!"
+			# Pause so player notices 21
+			time.sleep(1)
+			blackjack.turn = "dealer"
+
+	print
+
+	while blackjack.turn is "dealer":
+		"Dealer's turn"
+		showCards(dealerCards, playerCards, blackjack.turn)
+		dealerRank = rank(dealerCards)
+
+		if dealerRank > 21:
+			print "\nDealer busts!"
+			blackjack.turn = None
+		elif dealerRank < 17:
+			print "\nDealer hits"
+			dealerCards.append(deal(deck))
+		else:
+			blackjack.turn = None
+
+		# Pause between dealer moves so player can see dealer's actions
+		time.sleep(1)
+
+	# Compare hands and update available chips
+	chips = getPayout(dealerCards, playerCards, chips, bet)
+	time.sleep(1.5)
+	print
+	return chips
+
+
+
 def main():
 	chips = 100
 	numDecks = changeNumDecks()
@@ -222,99 +317,10 @@ def main():
 				print "Thanks for playing!\n"
 				return
 
-		print "*" * 50
-		print "Chips:", chips
-		bet = placeBet(chips)
-		print "*" * 50
-		chips = chips - bet
-		print "Chips:", chips
-		print "Bet:", bet
-
 		deck = shuffleDeck(numDecks)
-		dealerCards, playerCards = [], []
-		dealerRank, playerRank = 0, 0
-
-		# Deal starting cards by appending the
-		# first card from deck to list
-		playerCards.append(deal(deck))
-		dealerCards.append(deal(deck))
-		playerCards.append(deal(deck))
-		dealerCards.append(deal(deck))
-
-		# Player goes first
-		blackjack.turn = "player"
-
-		if rank(dealerCards) == 21:
-			"Check for dealer Blackjack"
-			showCards(dealerCards, playerCards, "dealer")
-			print "\nDealer got blackjack!"
-			blackjack.turn = None
-		elif rank(playerCards) == 21:
-			"Check player for Blackjack"
-			showCards(dealerCards, playerCards)
-			blackjack.turn = None
-		else:
-			showCards(dealerCards, playerCards)
-
-		while blackjack.turn is "player":
-			"Player's turn"
-			choice = blackjackMenu(playerCards, chips, bet)
-
-			if choice == "HIT":
-				playerCards.append(deal(deck))
-			elif choice == "STAND":
-				blackjack.turn = "dealer"
-				break
-			elif choice == "DOUBLE":
-				print "Double Down! Good luck!"
-				chips = chips - bet
-				print "Chips:", chips
-				bet = 2*bet
-				print "Bet:", bet
-				playerCards.append(deal(deck))
-				showCards(dealerCards, playerCards)
-				time.sleep(2)
-				blackjack.turn = "dealer"
-
-			if choice != "DOUBLE":
-				showCards(dealerCards, playerCards)
-			playerRank = rank(playerCards)
-
-			if playerRank > 21:
-				"Bust"
-				blackjack.turn = None
-			elif playerRank == 21:
-				"Twenty-One"
-				print "\nYou got 21!"
-				# Pause so player notices 21
-				time.sleep(1)
-				blackjack.turn = "dealer"
-
-		print
-
-		while blackjack.turn is "dealer":
-			"Dealer's turn"
-			showCards(dealerCards, playerCards, blackjack.turn)
-			dealerRank = rank(dealerCards)
-
-			if dealerRank > 21:
-				print "\nDealer busts!"
-				blackjack.turn = None
-			elif dealerRank < 17:
-				print "\nDealer hits"
-				dealerCards.append(deal(deck))
-			else:
-				blackjack.turn = None
-
-			# Pause between dealer moves so player can see dealer's actions
-			time.sleep(1)
-
-		# Compare hands and update available chips
-		chips = blackjack(dealerCards, playerCards, chips, bet)
-		time.sleep(1.5)
+		chips = blackjack(deck,chips)
 		choice = ''
-		print
-
+		
 	print "No more chips available"
 	print "Thanks for playing!\n"
 
