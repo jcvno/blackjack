@@ -35,13 +35,13 @@ Currently, only "Hit", "Stand", and "Double Down" actions are available. Advance
 
 ## Winnings
 * Blackjack
-	- Winnings total 2.5 times player bet
+	- 3:2 payout
 * Win
-	- Winnings total 2 times player bet
+	- 2:1 payout
 * Push
-	- Winnings total 1 times player bet
+	- 0 payout
 * Lose
-	- Winnings total 0
+	- Lose bet
 
 # Unit Testing
 The module `test.py` contains various testing statements to assert the correctness of the different methods of the `blackjack.py` module.
