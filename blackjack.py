@@ -38,13 +38,14 @@ def changeNumDecks():
 	Returns new number of decks to use
 	"""
 	numDecks = 0
-	while numDecks <= 0:
+	while numDecks <= 0 or numDecks > 8:
 		try:
-			print "Enter number of decks to use:"
+			print "Enter number of decks to use (1-8):"
 			numDecks = int(raw_input("% "))
-			assert numDecks > 0
+			assert 0 < numDecks <= 8
 		except (ValueError, AssertionError):
 			print "Invalid input! Must be integer value greater than 0"
+			print "and less than 8"
 	return numDecks
 
 def placeBet(chips):
@@ -58,7 +59,7 @@ def placeBet(chips):
 		try:
 			print "How much do you wanna bet (0-" + str(chips) + ")?"
 			bet = float(raw_input("% "))
-			assert bet > 0 and bet <= chips
+			assert 0 < bet <= chips
 		except ValueError:
 			print "Invalid input! Must be integer or float value greater"
 			print "than 0 and less than the number of available chips"
@@ -86,7 +87,7 @@ def menu():
 			print "[2] Change # Decks"
 			print "[3] Exit"
 			choice = int(raw_input("% "))
-			assert choice >= 1 and choice <= maxChoice
+			assert 1 <=choice <= maxChoice
 		except (ValueError, AssertionError):
 			print "Invalid choice! Must be [1-" + str(maxChoice) + "]"
 	return menuChoices[choice]
@@ -115,7 +116,7 @@ def blackjackMenu(playerCards, chips, bet):
 				print "[3] Double Down"
 				maxChoice += 1
 			choice = int(raw_input("% "))
-			assert choice >= 1 and choice <= maxChoice
+			assert 1 <= choice <= maxChoice
 		except (ValueError, AssertionError):
 			print "Invalid choice! Must be [1-" + str(maxChoice) + "]"
 	return blackjackChoices[choice]
@@ -290,8 +291,6 @@ def blackjack(deck,chips):
 	time.sleep(1.5)
 	print
 	return chips
-
-
 
 def main():
 	chips = 100
