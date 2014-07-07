@@ -42,3 +42,6 @@ Currently, only "Hit", "Stand", and "Double Down" actions are available. Advance
 	- Winnings total 1 times player bet
 * Lose
 	- Winnings total 0
+
+# Unit Testing
+The module `test.py` contains various testing statements to assert the correctness of the different methods of the `blackjack.py` module.

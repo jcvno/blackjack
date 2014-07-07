@@ -20,6 +20,8 @@
 import random
 import time
 
+MAX_DECKS = 8
+
 def shuffleDeck(numDecks):
 	"""
 	Builds, shuffles, and returns a deck of 52 * numDecks cards
@@ -38,11 +40,11 @@ def changeNumDecks():
 	Returns new number of decks to use
 	"""
 	numDecks = 0
-	while numDecks <= 0 or numDecks > 8:
+	while numDecks <= 0 or numDecks > MAX_DECKS:
 		try:
-			print "Enter number of decks to use (1-8):"
+			print "Enter number of decks to use (1-" + str(MAX_DECKS) + "):"
 			numDecks = int(raw_input("% "))
-			assert 0 < numDecks <= 8
+			assert 0 < numDecks <= MAX_DECKS
 		except (ValueError, AssertionError):
 			print "Invalid input! Must be integer value greater than 0"
 			print "and less than 8"
@@ -322,6 +324,7 @@ def main():
 		
 	print "No more chips available"
 	print "Thanks for playing!\n"
+
 
 if __name__ == "__main__":
 	print chr(27) + "[2J" # Clear screen
