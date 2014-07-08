@@ -54,13 +54,15 @@ def placeBet(chips):
 	"""
 	Prompts user for bet value
 	User input must be greater than 0 and less than chips
-	Returns bet
+	Fixed bet precision to one decimal place
+	Returns bet, rounded to nearest tenth
 	"""
 	bet = 0
 	while bet <= 0 or bet > chips:
 		try:
 			print "How much do you wanna bet (0-" + str(chips) + ")?"
-			bet = float(raw_input("% "))
+			# Round bet to the nearest tenth
+			bet = round(float(raw_input("% ")),1)
 			assert 0 < bet <= chips
 		except ValueError:
 			print "Invalid input! Must be integer or float value greater"
@@ -178,7 +180,8 @@ def getPayout(dealer, player, chips, bet):
 	"""
 	Evaluates and compares dealer and player hands
 	Calculates winnings and adds to chips
-	Returns chips
+	Fixed chips precision to one decimal place
+	Returns chips rounded to nearest tenth
 	"""
 	if rank(player) > 21:
 		"Player bust"
@@ -199,7 +202,7 @@ def getPayout(dealer, player, chips, bet):
 		"Dealer beats player"
 		print "You lose!"
 
-	return chips
+	return round(chips,1)
 
 def blackjack(deck,chips):
 	"""

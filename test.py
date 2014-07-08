@@ -62,6 +62,9 @@ def test():
 	assert bj.getPayout(['5D', '5C'], ['AH', 'JS'], 0, 100) == 250
 	# 50 bet: 50(bet) + 75(payout) + 25(chips) = 150
 	assert bj.getPayout(['5D', '5C'], ['AH', 'JS'], 25, 50) == 150
+	"""Test for Blackjack with decimal place"""
+	# 2.5 bet: 2.5(bet) + 3.75(payout) + 2.5(chips) => round(8.75,1) = 8.8
+	assert bj.getPayout(['5D', '5C'], ['AH', 'JS'], 2.5, 2.5) == 8.8
 	"""Test for player bust"""
 	# 50 bet: 0(lost bet) + 0(payout) + 25(available chips) = 25
 	assert bj.getPayout(['5D', '5C'], ['3H', 'JS', 'KH'], 25, 50) == 25
