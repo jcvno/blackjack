@@ -202,6 +202,9 @@ def getPayout(dealer, player, chips, bet):
 	return chips
 
 def blackjack(deck,chips):
+	"""
+	Play a round of (single player) Blackjack
+	"""
 	print "*" * 50
 	print "Chips:", chips
 	bet = placeBet(chips)
