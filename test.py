@@ -65,6 +65,9 @@ def test():
 	"""Test for Blackjack with decimal place"""
 	# 2.5 bet: 2.5(bet) + 3.75(payout) + 2.5(chips) => round(8.75,1) = 8.8
 	assert bj.getPayout(['5D', '5C'], ['AH', 'JS'], 2.5, 2.5) == 8.8
+	"""Test for Blackjack with decimal place"""
+	# 1.25 bet: 1.25(bet) + 1.875(payout) + 0(chips) => round(3.125,1) = 3.1
+	assert bj.getPayout(['5D', '5C'], ['AH', 'JS'], 0, 1.25) == 3.1
 	"""Test for player bust"""
 	# 50 bet: 0(lost bet) + 0(payout) + 25(available chips) = 25
 	assert bj.getPayout(['5D', '5C'], ['3H', 'JS', 'KH'], 25, 50) == 25
