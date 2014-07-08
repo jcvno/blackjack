@@ -55,15 +55,20 @@ def test():
 	assert choice in bj.blackjackChoices
 	print "PASSED\n"
 
-	print "***Testing method: getPayout([\'5D\', \'5C\'], [\'AH\', \'JS\'], 0, 100)***"
+	print "***Testing method: getPayout(dealer, player, chips, bet)***"
 	"Test for player blackjack and correct payout"
-	dealerCards = ["5D", "5C"]
-	playerCards = ["AH", "JS"]
 	# Blackjack pays 3:2
 	# 100 bet: 100(bet) + 150(payout) + 0(chips) = 250
-	assert bj.getPayout(dealerCards, playerCards, 0, 100) == 250
+	assert bj.getPayout(['5D', '5C'], ['AH', 'JS'], 0, 100) == 250
 	# 50 bet: 50(bet) + 75(payout) + 25(chips) = 150
-	assert bj.getPayout(dealerCards, playerCards, 25, 50) == 150
+	assert bj.getPayout(['5D', '5C'], ['AH', 'JS'], 25, 50) == 150
+	"Test for player bust"
+	# 50 bet: 0(lost bet) + 0(payout) + 25(available chips) = 25
+	assert bj.getPayout(['5D', '5C'], ['3H', 'JS', 'KH'], 25, 50) == 25
+	"Test for player win"
+	# 100 bet: 100(bet) + 100(payout) + 100(chips) = 300
+	assert bj.getPayout(['TD', '7C'], ['JS', 'KH'], 100, 100) == 300
+
 	print "PASSED\n"
 
 	print "All tests passed! :)"
