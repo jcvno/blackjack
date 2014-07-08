@@ -43,5 +43,21 @@ Currently, only "Hit", "Stand", and "Double Down" actions are available. Advance
 * Lose/Bust
 	- Lose bet
 
+## Gameflow
+Psuedo code gameflow algorithm
+
+```
+chips = 100 # Single player starts with 100 chips
+while there are still chips available:
+	play blackjack:
+		place bet
+		deal cards
+		check for blackjack
+		player's turn
+		dealer's turn
+		compare hands
+		calculate and receive payout
+```
+
 # Unit Testing
 The module `test.py` contains various testing statements to assert the correctness of the different methods of the `blackjack.py` module.
