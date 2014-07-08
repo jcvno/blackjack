@@ -4,9 +4,9 @@ Blackjack
 This is a simple text-based Python program of the game Blackjack (http://en.wikipedia.org/wiki/Blackjack), developed for a coding challenge from the 2014 Insight Data Engineering Fellows Program application.
 
 # Usage
-Simply download the source and run in the Python interpreter
+Simply download the source and run in your favorite Python interpreter, e.g. run from terminal:
 
-`python blackjack.py`
+`$ python blackjack.py`
 
 # Gameplay
 Single player begins with 100 chips and plays against the dealer. Game first prompts the player how many decks to use. Cards are recycled and deck is shuffled after every round.
