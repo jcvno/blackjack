@@ -319,12 +319,11 @@ def main():
 				return
 
 		deck = shuffleDeck(numDecks)
-		chips = blackjack(deck,chips)
+		chips = blackjack(deck,chips) # Play a game of blackjack
 		choice = ''
 		
 	print "No more chips available"
 	print "Thanks for playing!\n"
-
 
 if __name__ == "__main__":
 	print chr(27) + "[2J" # Clear screen
