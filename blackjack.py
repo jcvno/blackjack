@@ -102,8 +102,8 @@ def blackjackMenu(playerCards, chips, bet):
 	Prompts user to choose Blackjack option:
 	1 - Hit
 	2 - Stand
-	3 - Double Down (uses chips and bet to determine 
-		if player can Double Down)
+	3 - Double Down (uses playerCards, chips, and
+		bet to determine if player can Double Down)
 	Can be extended for advanced options, i.e. split
 	Returns user selection
 	"""
