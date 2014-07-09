@@ -205,6 +205,10 @@ def getPayout(dealer, player, chips, bet):
 def blackjack(deck,chips):
 	"""
 	Play a round of (single player) Blackjack
+	using deck and chips. Player will be ask to
+	enter a valid bet value. Payout will be added
+	to available chips.
+	Return chips after payout.
 	"""
 	print "*" * 50
 	print "Chips:", chips
