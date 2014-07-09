@@ -11,7 +11,7 @@ Simply download the source and run in your favorite Python interpreter, e.g. run
 # Gameplay
 Single player begins with 100 chips and plays against the dealer. Game first prompts the player how many decks to use. Cards are recycled and deck is shuffled after every round.
 
-Player will be asked to place a bet of at least one (1) chip. Once bet is place, the round starts and the dealer deals out the cards and appropriately checks for Blackjack. Once the round has begun, the player will have the option to either Hit or Stand.
+Player will be asked to place a bet of at least one (1) chip. Once bet is place, the round starts and the dealer deals out the cards and appropriately checks for Blackjack. Once the round has begun, the player will have the option to either Hit, Stand, or Double Down (when appropriate).
 
 When the player stands, or gets 21, the dealer will play its turn. There is a small one (1) second delay so the player can keep track of every move.
 
@@ -42,6 +42,8 @@ Currently, only "Hit", "Stand", and "Double Down" actions are available. Advance
 	- 1:1 payout
 * Lose/Bust
 	- Lose bet
+
+Available chips are rounded to the nearest tenth
 
 ## Gameflow
 Psuedo code gameflow algorithm
