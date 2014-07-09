@@ -39,7 +39,7 @@ def test():
 	print "***Testing method: placeBet(chips)***"
 	"""Test method returns a bet value that is not greater than chips value"""
 	bet = bj.placeBet(chips)
-	assert bet <= chips
+	assert 1 <= bet <= chips
 	print "PASSED\n"
 
 	print "***Testing method: menu()***"

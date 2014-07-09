@@ -58,17 +58,15 @@ def placeBet(chips):
 	Returns bet, rounded to nearest tenth
 	"""
 	bet = 0
-	while bet <= 0 or bet > chips:
+	while bet < 1 or bet > chips:
 		try:
 			print "How much do you wanna bet (0-" + str(chips) + ")?"
 			# Round bet to the nearest tenth
 			bet = round(float(raw_input("% ")),1)
-			assert 0 < bet <= chips
-		except ValueError:
-			print "Invalid input! Must be integer or float value greater"
-			print "than 0 and less than the number of available chips"
-		except AssertionError:
-			print "You don't have that many chips!"
+			assert 1 <= bet <= chips
+		except (ValueError, AssertionError):
+			print "Invalid input! Must be integer or float value at least 1"
+			print "and less than the number of available chips"
 	return bet
 
 menuChoices = ['', "PLAY", "DECK", "EXIT"]
