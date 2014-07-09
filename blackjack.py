@@ -60,7 +60,7 @@ def placeBet(chips):
 	bet = 0
 	while bet < 1 or bet > chips:
 		try:
-			print "How much do you wanna bet (0-" + str(chips) + ")?"
+			print "How much do you wanna bet (1-" + str(chips) + ")?"
 			# Round bet to the nearest tenth
 			bet = round(float(raw_input("% ")),1)
 			assert 1 <= bet <= chips
