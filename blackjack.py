@@ -274,7 +274,7 @@ def blackjack(deck,chips):
 			"Twenty-One"
 			print "\nYou got 21!"
 			# Pause so player notices 21
-			time.sleep(1)
+			time.sleep(2)
 			blackjack.turn = "dealer"
 
 	print
@@ -294,7 +294,7 @@ def blackjack(deck,chips):
 			blackjack.turn = None
 
 		# Pause between dealer moves so player can see dealer's actions
-		time.sleep(1)
+		time.sleep(2)
 
 	# Compare hands and update available chips
 	chips = getPayout(dealerCards, playerCards, chips, bet)
