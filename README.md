@@ -30,6 +30,7 @@ When the player stands, or gets 21, the dealer will play its turn. There is a sm
 	- Pass the turn to the dealer
 * Double Down
 	- Double bet and pass turn after dealer deals another card
+	- Double Down is only available at the beginning of the round, if player has enough chips
 	
 Currently, only "Hit", "Stand", and "Double Down" actions are available. Advanced actions such as "Splitting" may be developed in a later version.
 
@@ -63,3 +64,6 @@ while there are still chips available:
 
 # Unit Testing
 The module `test.py` contains various testing statements to assert the correctness of the different methods of the `blackjack.py` module.
+
+# Comments
+I decided to write this program using Python 2.7.5, so I can further practice and sharpen my Python developing skills.
