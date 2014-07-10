@@ -13,7 +13,7 @@ Single player begins with 100 chips and plays against the dealer. Game first pro
 
 Available chips will be rounded to the nearest tenth. The player will be asked to place a bet of at least one (1) chip, also rounded to the nearest tenth. Once bet is place, the round starts and the dealer deals out the cards and appropriately checks for Blackjack. Once the round has begun, the player will have the option to either Hit, Stand, or Double Down (when appropriate).
 
-When the player stands, or gets 21, the dealer will play its turn. There is a small one (1) second delay so the player can keep track of every move.
+When the player stands, or gets 21, the dealer will play its turn. The dealer follows the soft 17 rule, which means that the dealer will keep hitting until its gets 17 or greater, even if it's a soft 17 (e.g. 'AH', '6S'). There is a small one (1) second delay so the player can keep track of every move.
 
 ## Menu
 * Play
