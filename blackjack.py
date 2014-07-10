@@ -306,6 +306,7 @@ def main():
 	chips = 100
 	numDecks = changeNumDecks()
 	choice = ''
+	deck = shuffleDeck(numDecks)
 
 	while chips > 0:
 		"""
@@ -326,7 +327,10 @@ def main():
 				print "Thanks for playing!\n"
 				return
 
-		deck = shuffleDeck(numDecks)
+		if len(deck) <= 0.25*52*numDecks:
+			"Shuffle deck when %25 of cards are left"
+			deck = shuffleDeck(numDecks)
+
 		chips = blackjack(deck,chips) # Play a game of blackjack
 		choice = ''
 		
